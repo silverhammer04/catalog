@@ -23,6 +23,21 @@ const readCatalog = () => {
     });
     return iou;
 };
+const readTermByID = (id) => {
+    const iou = new Promise((resolve, reject) => {
+        MongoClient.connect(url, options, (err, client) => {
+            assert.equal(err, null);           
+            const db = client.db(db_name);
+            const collection = db.collection(col_name);
+            collection.find({_id: new ObjectID(id)}).toArray((err, docs) => {
+                assert.equal(err, null);
+                resolve(docs[0]);
+                client.close();
+                })
+            });
+        });
+    return iou;
+}
 
 const createTerms = (term) => {
     const iou = new Promise((resolve, reject) => {
@@ -39,7 +54,45 @@ const createTerms = (term) => {
     });
     return iou;
 }
+
+const upcertTerms = (id, ordo) => {
+    const iou = new Promise((resolve, reject) => {
+        MongoClient.connect(url, options, (err, client) => {
+            assert.equal(err, null);
+            const db = client.db(db_name);
+            const collection = db.collection(col_name);
+            collection.findAndModify({ _id: new ObjectID(id)}, 
+            null,
+            {$set: {...ordo}},
+            {upsert: true},
+            (err, result) => {
+                assert.equal(err, null);
+                readTermByID(id)
+                    .then(ordo => resolve(ordo))
+                    .then(() => client.close ());
+            })
+        });
+    });
+    return iou;
+}
+const deleteTerms = (id) => {
+    const iou = new Promise((resolve, reject) => {
+        MongoClient.connect(url, options, (err, client) => {
+            assert.equal(err, null);
+            const db = client.db(db_name);
+            const collection = db.collection(col_name);
+            collection.findOneAndDelete({_id: new ObjectID(id) }, (err, result)=>{
+                assert.equal(err, null);
+                resolve(result,);
+                client.close();
+            });
+        });
+    });
+  return iou;
+};
 module.exports = {
     createTerms,
-    readCatalog
+    readCatalog,
+    upcertTerms,
+    deleteTerms
 }
