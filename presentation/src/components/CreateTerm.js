@@ -47,10 +47,11 @@ export default class CreateTerm extends React.Component {
                     value={this.state.definition}
                     onChange={this.handleChange} />
                 <br/>
-                    Do you Understand this term?
+                    Do you Understand this term?  
+                    Check for yes.
                 <input type="checkbox"
                     checked={this.state.understand}
-                    onChange={this.handleCheck} /> Check for yes.
+                    onChange={this.handleCheck} /> 
                 <br/>
 
                 <input type="submit"

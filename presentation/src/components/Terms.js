@@ -19,7 +19,8 @@ class Terms extends React.Component{
         const displayTerms = this.state.terms.map(term =>
         <Term 
             key={term._id} 
-            term={term} />
+            term={term}
+            refresh={this.getTerms} />
             
         )
         return (
