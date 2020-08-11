@@ -1,5 +1,6 @@
 import React from 'react';
 import Term from './Term';
+import CreateTerm from './CreateTerm'
 
 class Terms extends React.Component{
     state={
@@ -24,9 +25,12 @@ class Terms extends React.Component{
         return (
             <>
                 <h2>Catalog of Terms</h2>
+                
                 <ul>
                     {displayTerms}
                 </ul>
+                <h3>Add a Term?</h3>
+                <CreateTerm refresh={this.getTerms}/>
             </>
         )
     }
