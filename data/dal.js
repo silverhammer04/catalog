@@ -24,6 +24,22 @@ const readCatalog = () => {
     return iou;
 };
 
+const createTerms = (term) => {
+    const iou = new Promise((resolve, reject) => {
+        MongoClient.connect(url, options, (err, client) => {
+            assert.equal(err, null);
+            const db = client.db(db_name);
+            const collection = db.collection(col_name);
+            collection.insertOne(term, (err, result) => {
+                assert.equal(err, null);
+                resolve(result.ops[0]);
+                client.close();
+            })
+        });
+    });
+    return iou;
+}
 module.exports = {
+    createTerms,
     readCatalog
 }
