@@ -4,7 +4,7 @@ export default class CreateTerm extends React.Component {
     state = {
         word: "",
         definition: "",
-        understand: false,
+        category: ""
     }
     handleSubmit = (event) =>{
         event.preventDefault();
@@ -21,16 +21,14 @@ export default class CreateTerm extends React.Component {
                 this.setState({
                     word: "",
                     definition: "",
-                    understand: ""
+                    category: ""                    
                 })
             })  .then(this.props.refresh)
     }
     handleChange = (event) => {
     this.setState({ [event.target.name] : event.target.value});
     }
-    handleCheck = (event) => {
-    this.setState({ understand: event.target.checked});
-    }
+
     render() {
         return(
             <form  onSubmit={this.handleSubmit}>
@@ -46,12 +44,14 @@ export default class CreateTerm extends React.Component {
                     placeholder="definition"
                     value={this.state.definition}
                     onChange={this.handleChange} />
-                <br/>
-                    Do you Understand this term?  
-                    Check for yes.
-                <input type="checkbox"
-                    checked={this.state.understand}
-                    onChange={this.handleCheck} /> 
+                <select name="category"
+                    value={this.state.category} 
+                    onChange={this.handleChange}>
+                    <option value="HTML">HTML</option>
+                    <option value="CSS">CSS</option>
+                    <option value="Tech">Tech</option>
+                    <option value="JavaScript">JavaScript</option>
+                </select>
                 <br/>
 
                 <input type="submit"

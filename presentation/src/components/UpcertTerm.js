@@ -1,10 +1,11 @@
 import React from 'react';
 
+
 export default class UpcertTerm extends React.Component {
     state = {
         word: this.props.term.word,
         definition: this.props.term.definition,
-        understand: this.props.term.understand,
+        category: this.props.term.category,
     };
     handleSubmit = (event) => {
         event.preventDefault();
@@ -14,7 +15,7 @@ export default class UpcertTerm extends React.Component {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(this.state) 
+            body: JSON.stringify(this.state)
         }) .then(response => response.json())
             .then(data => console.log(data))
             .then(this.props.toggleForm)
@@ -23,9 +24,7 @@ export default class UpcertTerm extends React.Component {
     handleChange = (event) => {
         this.setState({ [event.target.name] : event.target.value});
         }
-    handleCheck = (event) => {
-        this.setState({ understand: event.target.checked});
-        }
+    
     render() {
         return (
             <form  onSubmit={this.handleSubmit}>
@@ -36,12 +35,7 @@ export default class UpcertTerm extends React.Component {
                 value={this.state.definition}
                 onChange={this.handleChange} />
             <br/>
-                Do you Understand this term?  
-                Check for yes.
-            <input type="checkbox"
-                checked={this.state.understand}
-                onChange={this.handleCheck} /> 
-            <br/>
+            
 
             <input type="submit"
                 value="Change Term"/>

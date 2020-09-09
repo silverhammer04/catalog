@@ -55,7 +55,7 @@ const createTerms = (term) => {
     return iou;
 }
 
-const upcertTerms = (id, ordo) => {
+const upcertTerms = (id, term) => {
     const iou = new Promise((resolve, reject) => {
         MongoClient.connect(url, options, (err, client) => {
             assert.equal(err, null);
@@ -63,12 +63,12 @@ const upcertTerms = (id, ordo) => {
             const collection = db.collection(col_name);
             collection.findAndModify({ _id: new ObjectID(id)}, 
             null,
-            {$set: {...ordo}},
+            {$set: {...term}},
             {upsert: true},
             (err, result) => {
                 assert.equal(err, null);
                 readTermByID(id)
-                    .then(ordo => resolve(ordo))
+                    .then(term => resolve(term))
                     .then(() => client.close ());
             })
         });
